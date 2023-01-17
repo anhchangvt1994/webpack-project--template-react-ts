@@ -209,12 +209,15 @@ const WebpackDevelopmentConfiguration = async () => {
 						// maxSize: 500,
 						// minSizeReduction: 500,
 					}, // styles
-					react: {
-						test: /react/,
-						filename: '[chunkhash:8].js',
+					vendors: {
 						chunks: 'all',
+						test: /[\\/]node_modules[\\/]/,
+						name: 'vendors',
+						reuseExistingChunk: true,
+						// minSize: 30000,
+						// maxSize: 200000,
 						enforce: true,
-					}, // react
+					},
 				}, // cacheGroups
 			},
 		},
