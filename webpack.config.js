@@ -64,7 +64,20 @@ module.exports = async (env, arg) => {
 						{
 							loader: 'css-loader',
 						},
-						'postcss-loader',
+						{
+							loader: 'postcss-loader',
+							options: {
+								postcssOptions: {
+									plugins: [
+										'postcss-preset-env',
+										'autoprefixer',
+										require('tailwindcss')(
+											PROJECT_PATH + '/tailwind.config.js'
+										),
+									],
+								},
+							},
+						},
 						{
 							loader: 'sass-loader',
 							options: {
@@ -121,8 +134,10 @@ module.exports = async (env, arg) => {
 						'react-dom/client': ['createRoot'],
 					},
 				],
+				dts: PROJECT_PATH + '/config/auto-imports.d.ts',
 				eslintrc: {
 					enabled: true,
+					filepath: PROJECT_PATH + '/config/.eslintrc-auto-import.json',
 				},
 			}),
 			...(WebpackConfigWithMode.plugins || []),

@@ -57,12 +57,11 @@ module.exports = (async () => {
 					},
 				},
 			],
-			noParse: /react|react-dom/,
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
 				title: 'webpack project for react',
-				template: 'index.html',
+				template: 'index.production.html',
 				inject: 'body',
 				templateParameters: {
 					env: process.env.ENV,
@@ -99,12 +98,6 @@ module.exports = (async () => {
 				maxSize: 100000,
 
 				cacheGroups: {
-					vendor: {
-						name: 'vendors',
-						reuseExistingChunk: true,
-						test: /[\\/]node_modules[\\/]/,
-						minSizeReduction: 100000,
-					},
 					styles: {
 						type: 'css/mini-extract',
 						filename: '[contenthash:8].css',
@@ -114,12 +107,14 @@ module.exports = (async () => {
 						minSizeReduction: 50000,
 						enforce: true,
 					},
-					react: {
-						test: /react/,
-						filename: '[chunkhash:8].js',
+					vendor: {
 						chunks: 'all',
+						test: /[\\/]node_modules[\\/]/,
+						filename: '[chunkhash:8].js',
 						enforce: true,
-					}, // react
+						reuseExistingChunk: true,
+						// minSizeReduction: 100000,
+					},
 				},
 			},
 

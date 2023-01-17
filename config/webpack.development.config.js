@@ -108,12 +108,11 @@ const WebpackDevelopmentConfiguration = async () => {
 					},
 				},
 			],
-			noParse: /react|react-dom/,
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
 				title: 'webpack project for react',
-				template: 'config/index.html',
+				template: 'index.development.html',
 				inject: 'body',
 				templateParameters: {
 					env: process.env.ENV,
@@ -173,13 +172,13 @@ const WebpackDevelopmentConfiguration = async () => {
 
 		cache: {
 			// NOTE - Type memory
-			// type: 'memory',
-			// cacheUnaffected: true,
-			// maxGenerations: Infinity,
+			type: 'memory',
+			cacheUnaffected: true,
+			maxGenerations: Infinity,
 
 			// NOTE - Type filesystem
-			type: 'filesystem',
-			compression: 'gzip',
+			// type: 'filesystem',
+			// compression: 'gzip',
 		},
 
 		// NOTE - We need get single runtime chunk to ignore issue hot module replacement does not work after changing a file
