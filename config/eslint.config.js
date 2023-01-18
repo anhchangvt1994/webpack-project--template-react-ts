@@ -6,7 +6,7 @@ module.exports = {
 		'airbnb-typescript',
 		'airbnb/hooks',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:jest/recommended',
+		// 'plugin:jest/recommended',
 		'plugin:prettier/recommended',
 		'eslint:recommended',
 		'plugin:import/recommended',
@@ -15,11 +15,16 @@ module.exports = {
 		'plugin:import/warnings',
 		'prettier',
 	],
-	plugins: ['react', '@typescript-eslint', 'jest'],
+	plugins: [
+		'react',
+		'@typescript-eslint',
+		// 'jest'
+	],
 	env: {
 		browser: true,
 		es6: true,
-		jest: true,
+		node: true,
+		// jest: true,
 	},
 	globals: {
 		Atomics: 'readonly',
@@ -43,14 +48,14 @@ module.exports = {
 				endOfLine: 'auto',
 			},
 		],
+		// NOTE - This options settup for stop linting alias
+		// "import/no-unresolved": [0, { }]
 	},
 	settings: {
 		'import/resolver': {
 			'eslint-import-resolver-custom-alias': {
 				alias: {
-					'@': './',
-					src: './src',
-					assets: './src/assets',
+					'': './src',
 				},
 				extensions: ['.js', '.jsx', '.ts', '.tsx'],
 			},
