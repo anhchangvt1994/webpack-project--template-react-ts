@@ -6,6 +6,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const PROJECT_PATH = __dirname.replace(/\\/g, '/')
 
+const resolve =
+	resolveTsconfigPathsToAlias(path.resolve(PROJECT_PATH, 'tsconfig.json')) || {}
+
 module.exports = async (env, arg) => {
 	const WebpackConfigWithMode = await require(getWebpackConfigFilePathWithMode(
 		arg.mode
@@ -37,14 +40,15 @@ module.exports = async (env, arg) => {
 		resolve: {
 			preferRelative: true,
 			alias: {
-				...(resolveTsconfigPathsToAlias(
-					path.resolve(PROJECT_PATH, 'tsconfig.json')
-				) || {}),
-				modules: [PROJECT_PATH],
+				...resolve.alias,
 				...(WebpackConfigWithMode.resolve?.alias ?? {}),
 			},
 			extensions: ['.ts', '.js', '.tsx', '.jsx'],
-			modules: ['node_modules', path.resolve(__dirname, './node_modules')],
+			modules: [
+				'node_modules',
+				path.resolve(__dirname, './node_modules'),
+				...resolve.modules,
+			],
 		},
 		devtool: WebpackConfigWithMode.devtool || false,
 		devServer: WebpackConfigWithMode.devServer || {},
@@ -176,17 +180,28 @@ function resolveTsconfigPathsToAlias(tsconfigPath = './tsconfig.json') {
 	)
 	const { paths, baseUrl } = tsconfig.compilerOptions
 
-	return Object.fromEntries(
+	const modules = [path.resolve(__dirname, baseUrl)]
+
+	const alias = Object.fromEntries(
 		Object.entries(paths)
 			.filter(([, pathValues]) => pathValues.length > 0)
 			.map(([pathKey, pathValues]) => {
 				const key = pathKey.replace('/*', '')
 				const value = path.resolve(
-					path.dirname(tsconfigPath),
+					__dirname,
 					baseUrl,
 					pathValues[0].replace(/[\/|\*]+(?:$)/g, '')
 				)
+				modules.push(value)
 				return [key, value]
 			})
 	)
+
+	return {
+		alias: {
+			src: path.resolve(__dirname, baseUrl),
+			...alias,
+		},
+		modules,
+	}
 } // resolveTsconfigPathsToAlias()
