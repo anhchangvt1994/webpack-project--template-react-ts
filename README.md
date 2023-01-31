@@ -113,14 +113,14 @@ Imagine that you need create a new env for an api title (prefix) to store all of
 ```javascript
 // env.api.mjs
 export default {
-	prefix: 'api',
-	data: {
-		user: {
-			info: '/api/user/info',
-			edit: '/api/user/edit',
-		},
-		product_list: '/api/product',
-	},
+  prefix: 'api',
+  data: {
+    user: {
+      info: '/api/user/info',
+      edit: '/api/user/edit',
+    },
+    product_list: '/api/product',
+  },
 }
 ```
 
