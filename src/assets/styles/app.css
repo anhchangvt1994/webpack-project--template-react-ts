@@ -11,7 +11,7 @@
 	width: 100vw;
 	align-items: center;
 	justify-content: center;
-	background: $main-color;
+	background: rgb(232, 242, 245);
 
 	.greeting-label {
 		font-size: 32px;

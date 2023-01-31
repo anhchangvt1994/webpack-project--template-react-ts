@@ -13,9 +13,7 @@ module.exports = (async () => {
 			...(process.env.ESM
 				? {
 						module: true,
-						// library: { type: 'module' },
 						environment: {
-							// module: true,
 							dynamicImport: true,
 						},
 				  }
@@ -27,6 +25,9 @@ module.exports = (async () => {
 					externals: {
 						react: 'module https://esm.sh/react@18.2.0',
 						'react-dom': 'module https://esm.sh/react-dom@18.2.0',
+						'styled-components':
+							'module https://esm.sh/styled-components@5.3.6',
+						polished: 'module https://esm.sh/polished@4.2.2',
 					},
 			  }
 			: {}),
@@ -81,6 +82,14 @@ module.exports = (async () => {
 				'import.meta.env': ENV_OBJ_WITH_JSON_STRINGIFY_VALUE,
 			}),
 		],
+		stats: {
+			assetsSort: '!size',
+			children: false,
+			usedExports: false,
+			modules: false,
+			entrypoints: false,
+			excludeAssets: [/\.*\.map/],
+		},
 		cache: {
 			type: 'filesystem',
 			compression: 'gzip',
@@ -91,7 +100,6 @@ module.exports = (async () => {
 		},
 		optimization: {
 			moduleIds: 'deterministic',
-			runtimeChunk: 'single',
 			splitChunks: {
 				chunks: 'all',
 				minSize: 5000,
@@ -100,7 +108,6 @@ module.exports = (async () => {
 				cacheGroups: {
 					styles: {
 						type: 'css/mini-extract',
-						filename: '[contenthash:8].css',
 						priority: 100,
 						minSize: 1000,
 						maxSize: 50000,
@@ -114,6 +121,24 @@ module.exports = (async () => {
 						enforce: true,
 						reuseExistingChunk: true,
 						// minSizeReduction: 100000,
+					},
+					utils: {
+						chunks: 'all',
+						test: /[\\/]utils[\\/]/,
+						filename: '[chunkhash:8].js',
+						reuseExistingChunk: true,
+						minSize: 10000,
+						maxSize: 100000,
+						// enforce: true,
+					},
+					config: {
+						chunks: 'all',
+						test: /[\\/]config[\\/]/,
+						filename: '[chunkhash:8].js',
+						reuseExistingChunk: true,
+						minSize: 10000,
+						maxSize: 100000,
+						// enforce: true,
 					},
 				},
 			},
@@ -132,15 +157,12 @@ module.exports = (async () => {
 					},
 					extractComments: false,
 				}),
-				// new ESBuildMinifyPlugin({
-				// 	target: 'es2015',
-				// }),
 				new CssMinimizerPlugin({
 					exclude: /node_modules/,
 					parallel: 4,
 
 					minify: [
-						CssMinimizerPlugin.esbuildMinify,
+						// CssMinimizerPlugin.esbuildMinify,
 						CssMinimizerPlugin.cssnanoMinify,
 						CssMinimizerPlugin.cssoMinify,
 						CssMinimizerPlugin.cleanCssMinify,

@@ -14,7 +14,7 @@ function App() {
 		<div className="app">
 			<img
 				className="app-logo"
-				src={require('assets/images/logo.svg')}
+				src="/images/logo.svg"
 				alt="React Logo"
 				width="256"
 				height="256"
