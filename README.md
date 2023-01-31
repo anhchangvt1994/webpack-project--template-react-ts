@@ -64,13 +64,13 @@ Compare them
 ```javascript
 // env.router.mjs
 export default {
-	prefix: 'router',
-	data: {
-		home: {
-			path: '/',
-			id: 'HomePage',
-		},
-	},
+  prefix: 'router',
+  data: {
+    home: {
+      path: '/',
+      id: 'HomePage',
+    },
+  },
 }
 ```
 
@@ -87,10 +87,10 @@ Imagine that you need to define a payment code validation array
 ```javascript
 // env.router.mjs
 export default {
-	prefix: 'payment',
-	data: {
-		valid_code: [0, 1, 2, 3],
-	},
+  prefix: 'payment',
+  data: {
+    valid_code: [0, 1, 2, 3],
+  },
 }
 ```
 
