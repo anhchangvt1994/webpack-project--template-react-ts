@@ -170,6 +170,7 @@ module.exports = (async () => {
 				}),
 			],
 		}, // optimization
+		target: process.env.ESM ? 'web' : 'browserslist',
 		...(process.env.ESM
 			? {
 					experiments: {

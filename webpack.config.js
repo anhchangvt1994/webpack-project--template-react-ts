@@ -68,6 +68,9 @@ module.exports = async (env, arg) => {
 						},
 						{
 							loader: 'css-loader',
+							options: {
+								url: false,
+							},
 						},
 						{
 							loader: 'postcss-loader',
@@ -87,9 +90,13 @@ module.exports = async (env, arg) => {
 						},
 					],
 				},
+				// NOTE - This config to resolve asset's paths
 				{
 					test: /\.(png|jpe?g|gif|webm|mp4|svg|ico|tff|eot|otf|woff|woff2)$/,
 					type: 'asset/resource',
+					generator: {
+						emit: false,
+					},
 					exclude: [/node_modules/],
 				},
 				...(WebpackConfigWithMode?.module?.rules ?? []),
