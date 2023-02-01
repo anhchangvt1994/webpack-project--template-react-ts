@@ -295,7 +295,7 @@ Note: Don't use this solution for all cases, because the large amount of file be
 
 I configed the NormalSplitChunks into **webpack.production.config.js**, the syntax of configuration is like this
 
-````javaScript
+```javaScript
 cacheGroups: {
   styles: {
     type: 'css/mini-extract',
