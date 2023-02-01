@@ -328,6 +328,7 @@ cacheGroups: {
     maxSize: 100000,
   },
 },
+```
 
 In this case, I configed to split any files in node_modules, utils and config directories. About pages and components directories you can use **dynamic import** to manual handle split-chunks.
 
@@ -343,7 +344,7 @@ Imagine that you have a code like this
 
 ```javascript
 import { useState } from 'react'
-````
+```
 
 The 'react' is a node_module dependency, you can see that infor in package.json.
 
