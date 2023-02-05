@@ -38,12 +38,9 @@ const WebpackDevelopmentConfiguration = async () => {
 		entry: {},
 		output: {
 			publicPath: '/',
-			module: true,
-			// library: { type: 'module' },
 			environment: {
 				dynamicImport: true,
 			},
-			scriptType: 'module',
 		},
 		devtool: 'inline-source-map', // NOTE - BAD Performance, GOOD debugging
 		// devtool: 'eval-cheap-module-source-map', // NOTE - SLOW Performance, GOOD debugging
@@ -115,7 +112,6 @@ const WebpackDevelopmentConfiguration = async () => {
 					env: process.env.ENV,
 					ioHost: JSON.stringify(process.env.IO_HOST),
 				},
-				scriptLoading: 'module',
 				// NOTE - Tell HtmlWebpackPlugin does not auto insert these files
 				// excludeChunks: ["socket.io-client"],
 			}),
@@ -176,48 +172,27 @@ const WebpackDevelopmentConfiguration = async () => {
 			// NOTE - Type memory
 			type: 'memory',
 			cacheUnaffected: true,
-			maxGenerations: Infinity,
-
-			// NOTE - Type filesystem
-			// type: 'filesystem',
-			// compression: 'gzip',
 		},
 
-		// NOTE - We need get single runtime chunk to ignore issue hot module replacement does not work after changing a file
-		// reference: https://github.com/webpack/webpack-dev-server/issues/2792
 		optimization: {
-			runtimeChunk: 'single',
-			splitChunks: {
-				cacheGroups: {
-					default: false,
-					vendors: {
-						chunks: 'all',
-						test: /[\\/]node_modules[\\/]/,
-						name: 'vendors',
-						reuseExistingChunk: true,
-						enforce: true,
-					},
-					utils: {
-						chunks: 'async',
-						test: /[\\/]utils[\\/]/,
-						name: 'utils',
-						reuseExistingChunk: true,
-						enforce: true,
-					},
-					config: {
-						chunks: 'async',
-						test: /[\\/]config[\\/]/,
-						name: 'config',
-						reuseExistingChunk: true,
-						enforce: true,
-					},
-				},
-			},
+			runtimeChunk: false,
+			removeAvailableModules: false,
+			removeEmptyChunks: false,
+			splitChunks: false,
+			sideEffects: false,
+			providedExports: false,
 		},
 		experiments: {
-			lazyCompilation: true,
+			lazyCompilation: {
+				imports: true,
+				entries: true,
+				test: (module) =>
+					!/[\\/](node_modules|src\/(utils|config|assets))[\\/]/.test(
+						module.nameForCondition()
+					),
+			},
+			layers: true,
 			cacheUnaffected: true,
-			outputModule: true,
 		},
 	}
 }
