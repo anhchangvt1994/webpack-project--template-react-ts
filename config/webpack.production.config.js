@@ -47,7 +47,7 @@ module.exports = (async () => {
 									{
 										bugfixes: true,
 										useBuiltIns: 'entry',
-										corejs: '3.26.1',
+										corejs: 3,
 									},
 								],
 								'@babel/preset-react',
@@ -115,6 +115,7 @@ module.exports = (async () => {
 				cacheGroups: {
 					styles: {
 						type: 'css/mini-extract',
+						filename: '[contenthash:8].css',
 						priority: 100,
 						minSize: 1000,
 						maxSize: 50000,
@@ -127,7 +128,6 @@ module.exports = (async () => {
 						filename: '[chunkhash:8].js',
 						enforce: true,
 						reuseExistingChunk: true,
-						// minSizeReduction: 100000,
 					},
 					utils: {
 						chunks: 'all',
@@ -136,7 +136,6 @@ module.exports = (async () => {
 						reuseExistingChunk: true,
 						minSize: 10000,
 						maxSize: 100000,
-						// enforce: true,
 					},
 					config: {
 						chunks: 'all',
@@ -145,7 +144,14 @@ module.exports = (async () => {
 						reuseExistingChunk: true,
 						minSize: 10000,
 						maxSize: 100000,
-						// enforce: true,
+					},
+					context: {
+						chunks: 'all',
+						test: /[\\/]context[\\/]/,
+						filename: '[chunkhash:8].js',
+						reuseExistingChunk: true,
+						minSize: 10000,
+						maxSize: 100000,
 					},
 				},
 			},

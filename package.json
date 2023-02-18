@@ -1,8 +1,8 @@
 {
 	"scripts": {
 		"dev": "cross-env ENV=development PORT=3000 IO_PORT=3030 webpack serve --mode=development",
-		"build": "webpack --mode=production",
-		"build:esm": "cross-env ESM=true webpack --mode=production",
+		"build": "tsc && webpack --mode=production",
+		"build:esm": "tsc && cross-env ESM=true webpack --mode=production",
 		"preview": "cross-env PORT=8080 NODE_NO_WARNINGS=1 node ./config/webpack.serve.config.js",
 		"prettier": "tsc --noEmit && prettier src/**/*.{t,j}s{,x} --no-error-on-unmatched-pattern --check",
 		"lint": "tsc --noEmit && eslint src/**/*.{t,j}s{,x} --no-error-on-unmatched-pattern --ignore-pattern node_modules/",
@@ -10,7 +10,7 @@
 		"prettier:fix": "npm run prettier -- --write",
 		"format": "npm run prettier:fix && npm run lint:fix",
 		"prepare": "npx husky install",
-		"pre-commit": "lint-staged"
+		"pre-commit": "tsc && lint-staged"
 	},
 	"browserslist": [
 		"> 1%",
@@ -87,7 +87,7 @@
 	},
 	"prettier": "./config/prettier.config.js",
 	"lint-staged": {
-		"*.{js,jsx,ts,tsx}": "npm run prettier && npm run lint"
+		"*.{js,jsx,ts,tsx}": "npm run prettier:fix && npm run lint"
 	},
 	"commitlint": {
 		"extends": [
