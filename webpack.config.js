@@ -5,7 +5,6 @@ const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const PROJECT_PATH = __dirname.replace(/\\/g, '/')
-
 const resolve =
 	resolveTsconfigPathsToAlias(path.resolve(PROJECT_PATH, 'tsconfig.json')) || {}
 
@@ -26,6 +25,7 @@ module.exports = async (env, arg) => {
 			...(WebpackConfigWithMode.entry || {}),
 		},
 		output: {
+			pathinfo: false,
 			globalObject: 'window',
 			filename: '[contenthash:8].js',
 			path: path.resolve(__dirname, 'dist'),
@@ -63,9 +63,7 @@ module.exports = async (env, arg) => {
 						},
 						{
 							loader: 'css-loader',
-							options: {
-								url: false,
-							},
+							options: { url: false },
 						},
 						{
 							loader: 'postcss-loader',
@@ -91,6 +89,7 @@ module.exports = async (env, arg) => {
 					type: 'asset/resource',
 					generator: {
 						emit: false,
+						// filename: '[hash][ext][query]',
 					},
 					exclude: [/node_modules/],
 				},
@@ -147,6 +146,39 @@ module.exports = async (env, arg) => {
 					{
 						'react-dom/client': ['createRoot'],
 					},
+					'react-router-dom',
+					{
+						'react-router-dom': [
+							'createBrowserRouter',
+							'RouterProvider',
+							'BrowserRouter',
+							'useMatches',
+							'generatePath',
+						],
+					},
+					{
+						'app/router/context/InfoContext': ['useRoute'],
+						'utils/StringHelper.ts': [
+							'getSlug',
+							'getSlugWithoutDash',
+							'getUnsignedLetters',
+							'getCustomSlug',
+							'generateTitleCase',
+							'generateSentenceCase',
+							'getLocale',
+							'encode',
+							'decode',
+							'hashCode',
+						],
+						'hooks/useStringHelper.ts': [
+							'useSlug',
+							'useSlugWithoutDash',
+							'useUnsignedLetters',
+							'useTitleCase',
+							'useSentenceCase',
+						],
+						'utils/CookieHelper.ts': ['getCookie', 'setCookie', 'deleteCookie'],
+					},
 					{
 						'styled-components': [
 							['default', 'styled'],
@@ -168,6 +200,7 @@ module.exports = async (env, arg) => {
 		],
 		stats: WebpackConfigWithMode.stats || 'detailed',
 		cache: WebpackConfigWithMode.cache || true,
+		performance: WebpackConfigWithMode.performance || {},
 		optimization: WebpackConfigWithMode.optimization || {},
 		experiments: WebpackConfigWithMode.experiments || {},
 		target: WebpackConfigWithMode.target || 'web',

@@ -15,11 +15,7 @@ module.exports = {
 		'plugin:import/warnings',
 		'prettier',
 	],
-	plugins: [
-		'react',
-		'@typescript-eslint',
-		// 'jest'
-	],
+	plugins: ['react', '@typescript-eslint/eslint-plugin'],
 	env: {
 		browser: true,
 		es6: true,
@@ -29,9 +25,15 @@ module.exports = {
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
+		NodeJS: true,
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
+		parser: {
+			js: 'espree',
+			jsx: 'espree',
+			'<template>': 'espree',
+		},
 		ecmaFeatures: {
 			jsx: true,
 			tsx: true,
@@ -52,8 +54,6 @@ module.exports = {
 		'no-unused-vars': 'warn',
 		'react-hooks/rules-of-hooks': 'warn',
 		'react-hooks/exhaustive-deps': 'warn',
-		// NOTE - This options settup for stop linting alias
-		// "import/no-unresolved": [0, { }]
 	},
 	settings: {
 		'import/resolver': {

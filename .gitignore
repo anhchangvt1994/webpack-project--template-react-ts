@@ -7,3 +7,4 @@ config/env/.env
 config/env/env.json
 config/.DS_Store
 *.DS_Store
+.swc
